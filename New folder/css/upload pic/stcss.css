@@ -1,0 +1,25 @@
+.upload-container {
+    position: relative;
+    width: 143px;
+}
+
+.file-input {
+    display: none; /* Hide the file input element */
+}
+
+.upload-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.upload-button:hover {
+    background-color: #0056b3;
+}
+
+/* Style the label to look like a button */

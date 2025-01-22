@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Capture</title>
+</head>
+<body>
+    <h1>Take Photo</h1>
+    <video id="camera" autoplay></video>
+    <button id="capture">Take Photo</button>
+    <canvas id="canvas" style="display: none;"></canvas>
+    <a id="download" style="display: none;" download="captured_photo.png">Download Photo</a>
+
+    <script>
+        const video = document.getElementById('camera');
+        const captureButton = document.getElementById('capture');
+        const canvas = document.getElementById('canvas');
+        const downloadLink = document.getElementById('download');
+        const constraints = {
+            video: true,
+            audio: false
+        };
+
+        // Access the user's camera and stream it to the video element
+        navigator.mediaDevices.getUserMedia(constraints)
+            .then(function(stream) {
+                video.srcObject = stream;
+            })
+            .catch(function(error) {
+                console.error('Error accessing the camera: ' + error);
+            });
+
+        // Capture a photo from the video stream and display it on the canvas
+        captureButton.addEventListener('click', function() {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+            downloadLink.href = canvas.toDataURL('image/png');
+            downloadLink.style.display = 'block';
+        });
+    </script>
+</body>
+</html>

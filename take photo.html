@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Page</title>
+</head>
+<body>
+    <!-- <h1>Camera Page</h1> -->
+    <video id="camera-feed" autoplay></video>
+    <button id="start-button">Take a Photo</button>
+
+    <script>
+        const videoElement = document.getElementById('camera-feed');
+        const startButton = document.getElementById('start-button');
+
+        // Function to start the camera feed
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                videoElement.srcObject = stream;
+            } catch (error) {
+                console.error('Error accessing the camera:', error);
+            }
+        }
+
+        // Event listener for the start button
+        startButton.addEventListener('click', startCamera);
+    </script>
+</body>
+</html>
