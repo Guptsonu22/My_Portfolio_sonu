@@ -4,7 +4,7 @@ import type React from "react"
 
 import { motion } from "framer-motion"
 import { Mail, Linkedin, Github, Twitter } from "lucide-react"
-import { useState } from "react"
+import { useState, useRef } from "react"
 import useMobile from "../hooks/useMobile"
 import { useTheme } from "../context/ThemeContext"
 
@@ -35,36 +35,48 @@ const iconVariants = {
 }
 
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitSuccess, setSubmitSuccess] = useState(false)
+  const [submitError, setSubmitError] = useState(false)
+  const formRef = useRef<HTMLFormElement>(null)
   const { isMobile } = useMobile()
   const { theme } = useTheme()
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setSubmitError(false)
 
-    // Simulate form submission
-    setTimeout(() => {
+    try {
+      const formData = new FormData(e.target as HTMLFormElement)
+
+      // Use FormSubmit service to send the email
+      const response = await fetch("https://formsubmit.co/sonugupta411093@gmail.com", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Accept: "application/json",
+        },
+      })
+
+      if (response.ok) {
+        setSubmitSuccess(true)
+        if (formRef.current) {
+          formRef.current.reset()
+        }
+
+        // Reset success message after 5 seconds
+        setTimeout(() => {
+          setSubmitSuccess(false)
+        }, 5000)
+      } else {
+        setSubmitError(true)
+      }
+    } catch (error) {
+      setSubmitError(true)
+    } finally {
       setIsSubmitting(false)
-      setSubmitSuccess(true)
-      setFormData({ name: "", email: "", message: "" })
-
-      // Reset success message after 3 seconds
-      setTimeout(() => {
-        setSubmitSuccess(false)
-      }, 3000)
-    }, 1500)
+    }
   }
 
   return (
@@ -146,7 +158,19 @@ export default function Contact() {
               >
                 Send a Message
               </h3>
-              <form className="space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
+              <form
+                ref={formRef}
+                action="https://formsubmit.co/sonugupta411093@gmail.com"
+                method="POST"
+                onSubmit={handleSubmit}
+                className="space-y-4 sm:space-y-6"
+              >
+                {/* FormSubmit configuration */}
+                <input type="hidden" name="_subject" value="New message from your portfolio website!" />
+                <input type="hidden" name="_captcha" value="false" />
+                <input type="hidden" name="_template" value="table" />
+                <input type="hidden" name="_next" value={typeof window !== "undefined" ? window.location.href : ""} />
+
                 <div>
                   <label
                     htmlFor="name"
@@ -158,8 +182,6 @@ export default function Contact() {
                     type="text"
                     id="name"
                     name="name"
-                    value={formData.name}
-                    onChange={handleChange}
                     required
                     className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg ${
                       theme === "light"
@@ -179,8 +201,6 @@ export default function Contact() {
                     type="email"
                     id="email"
                     name="email"
-                    value={formData.email}
-                    onChange={handleChange}
                     required
                     className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg ${
                       theme === "light"
@@ -199,8 +219,6 @@ export default function Contact() {
                   <textarea
                     id="message"
                     name="message"
-                    value={formData.message}
-                    onChange={handleChange}
                     rows={isMobile ? 3 : 4}
                     required
                     className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg ${
@@ -262,6 +280,14 @@ export default function Contact() {
                     "Send Message"
                   )}
                 </motion.button>
+
+                {submitError && (
+                  <div
+                    className={`mt-4 p-3 rounded-md text-center bg-red-100 text-red-800 dark:bg-red-800/30 dark:text-red-400`}
+                  >
+                    There was an error sending your message. Please try again or email directly.
+                  </div>
+                )}
               </form>
             </div>
           </div>
