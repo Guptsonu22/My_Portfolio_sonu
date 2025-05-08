@@ -96,7 +96,7 @@ const projects = [
       "A comprehensive web platform that organizes and presents educational resources in an intuitive dashboard interface. StudyShelf-Pro helps students and educators efficiently manage learning materials, track progress, and access curated educational content all in one place.",
     image:
       "https://img.freepik.com/premium-vector/woman-is-actively-participating-online-lectures-using-computer-with-visual-aids-books-nearby-online-lectures-using-web_538213-148637.jpg",
-    liveDemo: "https://v0-educational-resources-dashboard-uzh4ie.vercel.app/",
+    liveDemo: "https://educational-resource.vercel.app/",
     sourceCode: "https://github.com/Guptsonu22/StudyShelf-Pro",
     technologies: ["React", "JavaScript", "CSS", "Responsive Design", "Educational Technology"],
     category: "web",

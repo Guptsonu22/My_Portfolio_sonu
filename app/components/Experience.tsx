@@ -22,6 +22,7 @@ import { useInView } from "react-intersection-observer"
 import { useTheme } from "../context/ThemeContext"
 import Image from "next/image"
 import useMobile from "../hooks/useMobile"
+import { Tilt } from "react-tilt"
 
 export default function Experience() {
   const { isMobile } = useMobile()
@@ -31,6 +32,7 @@ export default function Experience() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const sectionRef = useRef(null)
   const cardRef = useRef(null)
+  const [isMounted, setIsMounted] = useState(false)
 
   const { ref, inView } = useInView({
     triggerOnce: false,
@@ -39,6 +41,10 @@ export default function Experience() {
 
   const controls = useAnimation()
   const timelineControls = useAnimation()
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   useEffect(() => {
     if (inView) {
@@ -413,400 +419,414 @@ export default function Experience() {
             </motion.div>
 
             {/* 3D Card with perspective effect */}
-            <motion.div
-              ref={cardRef}
-              className="relative ml-12 perspective-1000"
-              style={{
-                perspective: 1000,
-              }}
-              variants={itemVariants}
-            >
-              <motion.div
-                className={`${theme === "light" ? "bg-white" : "bg-[#131b2e]"} rounded-xl overflow-hidden ${
-                  theme === "light" ? "border border-blue-200/50" : "border border-blue-500/20"
-                } ${theme === "light" ? "shadow-lg shadow-blue-100/50" : "shadow-lg shadow-blue-900/20"}`}
-                style={{
-                  transformStyle: "preserve-3d",
-                  rotateX: !isMobile ? rotateX : 0,
-                  rotateY: !isMobile ? rotateY : 0,
-                }}
-                whileHover={{
-                  boxShadow:
-                    theme === "light"
-                      ? "0 20px 25px -5px rgba(59, 130, 246, 0.2), 0 10px 10px -5px rgba(59, 130, 246, 0.1)"
-                      : "0 20px 25px -5px rgba(59, 130, 246, 0.2), 0 10px 10px -5px rgba(59, 130, 246, 0.1)",
-                }}
-                transition={{
-                  type: "spring",
-                  damping: 20,
-                  stiffness: 300,
+            {isMounted && (
+              <Tilt
+                options={{
+                  max: 25,
+                  scale: 1.05,
+                  speed: 300,
+                  glare: true,
+                  "max-glare": 0.5,
                 }}
               >
-                {/* Animated gradient border */}
-                <div
-                  className={`h-2 w-full bg-gradient-to-r from-${colorMap[experience.color]}-500 via-${colorMap[experience.color]}-400 to-purple-500 relative overflow-hidden`}
+                <motion.div
+                  ref={cardRef}
+                  className="relative ml-12 perspective-1000"
+                  style={{
+                    perspective: 1000,
+                  }}
+                  variants={itemVariants}
                 >
                   <motion.div
-                    className="absolute inset-0 bg-white/20"
-                    animate={{
-                      x: ["-100%", "100%"],
+                    className={`${theme === "light" ? "bg-white" : "bg-[#131b2e]"} rounded-xl overflow-hidden ${
+                      theme === "light" ? "border border-blue-200/50" : "border border-blue-500/20"
+                    } ${theme === "light" ? "shadow-lg shadow-blue-100/50" : "shadow-lg shadow-blue-900/20"}`}
+                    style={{
+                      transformStyle: "preserve-3d",
+                      rotateX: !isMobile ? rotateX : 0,
+                      rotateY: !isMobile ? rotateY : 0,
+                    }}
+                    whileHover={{
+                      boxShadow:
+                        theme === "light"
+                          ? "0 20px 25px -5px rgba(59, 130, 246, 0.2), 0 10px 10px -5px rgba(59, 130, 246, 0.1)"
+                          : "0 20px 25px -5px rgba(59, 130, 246, 0.2), 0 10px 10px -5px rgba(59, 130, 246, 0.1)",
                     }}
                     transition={{
-                      duration: 2,
-                      repeat: Number.POSITIVE_INFINITY,
-                      repeatType: "mirror",
+                      type: "spring",
+                      damping: 20,
+                      stiffness: 300,
                     }}
-                  />
-                </div>
-
-                <div className="p-6">
-                  <div className="flex flex-col md:flex-row md:items-start gap-4 mb-6">
-                    {/* Company logo/icon with 3D effect */}
-                    <motion.div
-                      className={`flex-shrink-0 w-16 h-16 ${
-                        theme === "light"
-                          ? `bg-${colorMap[experience.color]}-100`
-                          : `bg-${colorMap[experience.color]}-900/30`
-                      } rounded-xl flex items-center justify-center relative overflow-hidden group`}
-                      whileHover={{
-                        scale: 1.05,
-                        rotate: [0, 5, -5, 0],
-                        transition: { duration: 0.5 },
-                      }}
-                      style={{
-                        transformStyle: "preserve-3d",
-                        transform: "translateZ(20px)",
-                      }}
+                  >
+                    {/* Animated gradient border */}
+                    <div
+                      className={`h-2 w-full bg-gradient-to-r from-${colorMap[experience.color]}-500 via-${colorMap[experience.color]}-400 to-purple-500 relative overflow-hidden`}
                     >
-                      {/* Background pattern */}
-                      <div
-                        className="absolute inset-0 opacity-10"
-                        style={{
-                          backgroundImage: `radial-gradient(circle, ${theme === "light" ? "#3b82f6" : "#3b82f6"} 1px, transparent 1px)`,
-                          backgroundSize: "10px 10px",
+                      <motion.div
+                        className="absolute inset-0 bg-white/20"
+                        animate={{
+                          x: ["-100%", "100%"],
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Number.POSITIVE_INFINITY,
+                          repeatType: "mirror",
                         }}
                       />
-
-                      {/* Icon with animation */}
-                      <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.5 }}>
-                        <Code
-                          className={`w-8 h-8 ${
-                            theme === "light"
-                              ? `text-${colorMap[experience.color]}-600`
-                              : `text-${colorMap[experience.color]}-400`
-                          }`}
-                        />
-                      </motion.div>
-
-                      {/* Shine effect */}
-                      <motion.div
-                        className="absolute inset-0 bg-white/20 -translate-x-full"
-                        animate={{ translateX: ["100%", "-100%"] }}
-                        transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, repeatDelay: 2 }}
-                      />
-                    </motion.div>
-
-                    {/* Job details with animations */}
-                    <div className="flex-grow">
-                      <div className="flex flex-wrap items-center gap-2 mb-1">
-                        <motion.h3
-                          className={`text-xl font-bold ${theme === "light" ? "text-gray-800" : "text-white"}`}
-                          initial={{ opacity: 0, y: 5 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.2 }}
-                        >
-                          {experience.title}
-                        </motion.h3>
-                        <motion.span
-                          className={`px-2 py-0.5 text-xs font-medium rounded-full ${
-                            theme === "light" ? "bg-green-100 text-green-700" : "bg-green-900/50 text-green-400"
-                          }`}
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: 0.3 }}
-                          whileHover={{ scale: 1.05 }}
-                        >
-                          {experience.type}
-                        </motion.span>
-                      </div>
-
-                      <motion.p
-                        className={`text-lg font-medium ${
-                          theme === "light"
-                            ? `text-${colorMap[experience.color]}-600`
-                            : `text-${colorMap[experience.color]}-400`
-                        }`}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.4 }}
-                      >
-                        {experience.company}
-                      </motion.p>
-
-                      <div className="flex flex-wrap gap-4 mt-3">
-                        <motion.div
-                          className="flex items-center"
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.5 }}
-                        >
-                          <Calendar
-                            className={`w-4 h-4 mr-1.5 ${theme === "light" ? "text-gray-500" : "text-gray-400"}`}
-                          />
-                          <span className={`text-sm ${theme === "light" ? "text-gray-600" : "text-gray-300"}`}>
-                            {experience.period}
-                          </span>
-                        </motion.div>
-
-                        <motion.div
-                          className="flex items-center"
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.6 }}
-                        >
-                          <MapPin
-                            className={`w-4 h-4 mr-1.5 ${theme === "light" ? "text-gray-500" : "text-gray-400"}`}
-                          />
-                          <span className={`text-sm ${theme === "light" ? "text-gray-600" : "text-gray-300"}`}>
-                            {experience.location}
-                          </span>
-                        </motion.div>
-                      </div>
                     </div>
-                  </div>
 
-                  {/* Animated divider */}
-                  <motion.div
-                    className={`h-px w-full my-6 ${
-                      theme === "light" ? "bg-gray-200" : "bg-gray-700"
-                    } relative overflow-hidden`}
-                    initial={{ width: 0 }}
-                    animate={{ width: "100%" }}
-                    transition={{ duration: 0.8, delay: 0.7 }}
-                  >
-                    <motion.div
-                      className={`absolute top-0 left-0 h-full w-20 ${
-                        theme === "light"
-                          ? `bg-gradient-to-r from-transparent via-${colorMap[experience.color]}-400 to-transparent`
-                          : `bg-gradient-to-r from-transparent via-${colorMap[experience.color]}-500 to-transparent`
-                      }`}
-                      animate={{ x: ["-100%", "500%"] }}
-                      transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, repeatDelay: 1 }}
-                    />
-                  </motion.div>
-
-                  {/* Responsibilities with animated list items */}
-                  <div className="mb-6">
-                    <motion.h4
-                      className={`text-lg font-semibold mb-4 flex items-center ${
-                        theme === "light" ? "text-gray-800" : "text-white"
-                      }`}
-                      initial={{ opacity: 0, y: 5 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.8 }}
-                    >
-                      <Award
-                        className={`w-5 h-5 mr-2 ${
-                          theme === "light"
-                            ? `text-${colorMap[experience.color]}-500`
-                            : `text-${colorMap[experience.color]}-400`
-                        }`}
-                      />
-                      Key Responsibilities & Achievements
-                    </motion.h4>
-
-                    <ul className="space-y-4">
-                      {experience.responsibilities.map((item, index) => (
-                        <motion.li
-                          key={index}
-                          className="flex items-start group"
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.8 + index * 0.1 }}
-                          whileHover={{ x: 5 }}
+                    <div className="p-6">
+                      <div className="flex flex-col md:flex-row md:items-start gap-4 mb-6">
+                        {/* Company logo/icon with 3D effect */}
+                        <motion.div
+                          className={`flex-shrink-0 w-16 h-16 ${
+                            theme === "light"
+                              ? `bg-${colorMap[experience.color]}-100`
+                              : `bg-${colorMap[experience.color]}-900/30`
+                          } rounded-xl flex items-center justify-center relative overflow-hidden group`}
+                          whileHover={{
+                            scale: 1.05,
+                            rotate: [0, 5, -5, 0],
+                            transition: { duration: 0.5 },
+                          }}
+                          style={{
+                            transformStyle: "preserve-3d",
+                            transform: "translateZ(20px)",
+                          }}
                         >
-                          <motion.div
-                            className={`mt-1.5 mr-3 w-4 h-4 rounded-full flex-shrink-0 ${
-                              theme === "light"
-                                ? `bg-${colorMap[experience.color]}-100`
-                                : `bg-${colorMap[experience.color]}-900/50`
-                            } flex items-center justify-center`}
-                            whileHover={{ scale: 1.2 }}
-                          >
-                            <ArrowRight
-                              className={`w-3 h-3 ${
+                          {/* Background pattern */}
+                          <div
+                            className="absolute inset-0 opacity-10"
+                            style={{
+                              backgroundImage: `radial-gradient(circle, ${theme === "light" ? "#3b82f6" : "#3b82f6"} 1px, transparent 1px)`,
+                              backgroundSize: "10px 10px",
+                            }}
+                          />
+
+                          {/* Icon with animation */}
+                          <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.5 }}>
+                            <Code
+                              className={`w-8 h-8 ${
                                 theme === "light"
                                   ? `text-${colorMap[experience.color]}-600`
                                   : `text-${colorMap[experience.color]}-400`
                               }`}
                             />
                           </motion.div>
-                          <p
-                            className={`${
-                              theme === "light" ? "text-gray-700" : "text-gray-300"
-                            } group-hover:text-${colorMap[experience.color]}-${theme === "light" ? "600" : "400"} transition-colors duration-200`}
+
+                          {/* Shine effect */}
+                          <motion.div
+                            className="absolute inset-0 bg-white/20 -translate-x-full"
+                            animate={{ translateX: ["100%", "-100%"] }}
+                            transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, repeatDelay: 2 }}
+                          />
+                        </motion.div>
+
+                        {/* Job details with animations */}
+                        <div className="flex-grow">
+                          <div className="flex flex-wrap items-center gap-2 mb-1">
+                            <motion.h3
+                              className={`text-xl font-bold ${theme === "light" ? "text-gray-800" : "text-white"}`}
+                              initial={{ opacity: 0, y: 5 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: 0.2 }}
+                            >
+                              {experience.title}
+                            </motion.h3>
+                            <motion.span
+                              className={`px-2 py-0.5 text-xs font-medium rounded-full ${
+                                theme === "light" ? "bg-green-100 text-green-700" : "bg-green-900/50 text-green-400"
+                              }`}
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{ delay: 0.3 }}
+                              whileHover={{ scale: 1.05 }}
+                            >
+                              {experience.type}
+                            </motion.span>
+                          </div>
+
+                          <motion.p
+                            className={`text-lg font-medium ${
+                              theme === "light"
+                                ? `text-${colorMap[experience.color]}-600`
+                                : `text-${colorMap[experience.color]}-400`
+                            }`}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.4 }}
                           >
-                            {item}
-                          </p>
-                        </motion.li>
-                      ))}
-                    </ul>
-                  </div>
+                            {experience.company}
+                          </motion.p>
 
-                  {/* Project image with hover effects and animations */}
-                  <motion.div
-                    className={`mb-6 rounded-lg overflow-hidden ${
-                      theme === "light" ? "border border-gray-200" : "border border-gray-700"
-                    } transform-gpu`}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1.2 }}
-                    whileHover={{
-                      scale: 1.02,
-                      boxShadow:
-                        theme === "light"
-                          ? "0 10px 25px -5px rgba(59, 130, 246, 0.1), 0 8px 10px -6px rgba(59, 130, 246, 0.1)"
-                          : "0 10px 25px -5px rgba(59, 130, 246, 0.2), 0 8px 10px -6px rgba(59, 130, 246, 0.2)",
-                    }}
-                    style={{
-                      transformStyle: "preserve-3d",
-                      transform: "translateZ(10px)",
-                    }}
-                  >
-                    <div className="relative h-64 overflow-hidden group">
-                      {/* Image with hover zoom effect */}
-                      <Image
-                        src={experience.projectImage || "/placeholder.svg"}
-                        alt={experience.projectTitle}
-                        layout="fill"
-                        objectFit="cover"
-                        className="group-hover:scale-105 transition-transform duration-500"
-                      />
+                          <div className="flex flex-wrap gap-4 mt-3">
+                            <motion.div
+                              className="flex items-center"
+                              initial={{ opacity: 0, x: -10 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: 0.5 }}
+                            >
+                              <Calendar
+                                className={`w-4 h-4 mr-1.5 ${theme === "light" ? "text-gray-500" : "text-gray-400"}`}
+                              />
+                              <span className={`text-sm ${theme === "light" ? "text-gray-600" : "text-gray-300"}`}>
+                                {experience.period}
+                              </span>
+                            </motion.div>
 
-                      {/* Overlay gradient */}
-                      <div
-                        className={`absolute inset-0 ${
-                          theme === "light"
-                            ? "bg-gradient-to-t from-white/70 to-transparent"
-                            : "bg-gradient-to-t from-gray-900/70 to-transparent"
-                        } opacity-80 group-hover:opacity-60 transition-opacity duration-300`}
-                      />
-
-                      {/* Project info */}
-                      <div className="absolute bottom-4 left-4 right-4 transform transition-transform duration-300 group-hover:translate-y-[-5px]">
-                        <motion.h5
-                          className={`text-lg font-bold ${theme === "light" ? "text-gray-800" : "text-white"}`}
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          transition={{ delay: 1.3 }}
-                        >
-                          {experience.projectTitle}
-                        </motion.h5>
-                        <motion.p
-                          className={`text-sm ${theme === "light" ? "text-gray-700" : "text-gray-300"}`}
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          transition={{ delay: 1.4 }}
-                        >
-                          {experience.projectDescription}
-                        </motion.p>
+                            <motion.div
+                              className="flex items-center"
+                              initial={{ opacity: 0, x: -10 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: 0.6 }}
+                            >
+                              <MapPin
+                                className={`w-4 h-4 mr-1.5 ${theme === "light" ? "text-gray-500" : "text-gray-400"}`}
+                              />
+                              <span className={`text-sm ${theme === "light" ? "text-gray-600" : "text-gray-300"}`}>
+                                {experience.location}
+                              </span>
+                            </motion.div>
+                          </div>
+                        </div>
                       </div>
 
-                      {/* View project button that appears on hover */}
+                      {/* Animated divider */}
                       <motion.div
-                        className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                        initial={{ scale: 0.8 }}
-                        animate={{ scale: 1 }}
+                        className={`h-px w-full my-6 ${
+                          theme === "light" ? "bg-gray-200" : "bg-gray-700"
+                        } relative overflow-hidden`}
+                        initial={{ width: 0 }}
+                        animate={{ width: "100%" }}
+                        transition={{ duration: 0.8, delay: 0.7 }}
+                      >
+                        <motion.div
+                          className={`absolute top-0 left-0 h-full w-20 ${
+                            theme === "light"
+                              ? `bg-gradient-to-r from-transparent via-${colorMap[experience.color]}-400 to-transparent`
+                              : `bg-gradient-to-r from-transparent via-${colorMap[experience.color]}-500 to-transparent`
+                          }`}
+                          animate={{ x: ["-100%", "500%"] }}
+                          transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, repeatDelay: 1 }}
+                        />
+                      </motion.div>
+
+                      {/* Responsibilities with animated list items */}
+                      <div className="mb-6">
+                        <motion.h4
+                          className={`text-lg font-semibold mb-4 flex items-center ${
+                            theme === "light" ? "text-gray-800" : "text-white"
+                          }`}
+                          initial={{ opacity: 0, y: 5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.8 }}
+                        >
+                          <Award
+                            className={`w-5 h-5 mr-2 ${
+                              theme === "light"
+                                ? `text-${colorMap[experience.color]}-500`
+                                : `text-${colorMap[experience.color]}-400`
+                            }`}
+                          />
+                          Key Responsibilities & Achievements
+                        </motion.h4>
+
+                        <ul className="space-y-4">
+                          {experience.responsibilities.map((item, index) => (
+                            <motion.li
+                              key={index}
+                              className="flex items-start group"
+                              initial={{ opacity: 0, x: -10 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: 0.8 + index * 0.1 }}
+                              whileHover={{ x: 5 }}
+                            >
+                              <motion.div
+                                className={`mt-1.5 mr-3 w-4 h-4 rounded-full flex-shrink-0 ${
+                                  theme === "light"
+                                    ? `bg-${colorMap[experience.color]}-100`
+                                    : `bg-${colorMap[experience.color]}-900/50`
+                                } flex items-center justify-center`}
+                                whileHover={{ scale: 1.2 }}
+                              >
+                                <ArrowRight
+                                  className={`w-3 h-3 ${
+                                    theme === "light"
+                                      ? `text-${colorMap[experience.color]}-600`
+                                      : `text-${colorMap[experience.color]}-400`
+                                  }`}
+                                />
+                              </motion.div>
+                              <p
+                                className={`${
+                                  theme === "light" ? "text-gray-700" : "text-gray-300"
+                                } group-hover:text-${colorMap[experience.color]}-${theme === "light" ? "600" : "400"} transition-colors duration-200`}
+                              >
+                                {item}
+                              </p>
+                            </motion.li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      {/* Project image with hover effects and animations */}
+                      <motion.div
+                        className={`mb-6 rounded-lg overflow-hidden ${
+                          theme === "light" ? "border border-gray-200" : "border border-gray-700"
+                        } transform-gpu`}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 1.2 }}
+                        whileHover={{
+                          scale: 1.02,
+                          boxShadow:
+                            theme === "light"
+                              ? "0 10px 25px -5px rgba(59, 130, 246, 0.1), 0 8px 10px -6px rgba(59, 130, 246, 0.1)"
+                              : "0 10px 25px -5px rgba(59, 130, 246, 0.2), 0 8px 10px -6px rgba(59, 130, 246, 0.2)",
+                        }}
+                        style={{
+                          transformStyle: "preserve-3d",
+                          transform: "translateZ(10px)",
+                        }}
+                      >
+                        <div className="relative h-64 overflow-hidden group">
+                          {/* Image with hover zoom effect */}
+                          <Image
+                            src={experience.projectImage || "/placeholder.svg"}
+                            alt={experience.projectTitle}
+                            layout="fill"
+                            objectFit="cover"
+                            className="group-hover:scale-105 transition-transform duration-500"
+                          />
+
+                          {/* Overlay gradient */}
+                          <div
+                            className={`absolute inset-0 ${
+                              theme === "light"
+                                ? "bg-gradient-to-t from-white/70 to-transparent"
+                                : "bg-gradient-to-t from-gray-900/70 to-transparent"
+                            } opacity-80 group-hover:opacity-60 transition-opacity duration-300`}
+                          />
+
+                          {/* Project info */}
+                          <div className="absolute bottom-4 left-4 right-4 transform transition-transform duration-300 group-hover:translate-y-[-5px]">
+                            <motion.h5
+                              className={`text-lg font-bold ${theme === "light" ? "text-gray-800" : "text-white"}`}
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              transition={{ delay: 1.3 }}
+                            >
+                              {experience.projectTitle}
+                            </motion.h5>
+                            <motion.p
+                              className={`text-sm ${theme === "light" ? "text-gray-700" : "text-gray-300"}`}
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              transition={{ delay: 1.4 }}
+                            >
+                              {experience.projectDescription}
+                            </motion.p>
+                          </div>
+
+                          {/* View project button that appears on hover */}
+                          <motion.div
+                            className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                            initial={{ scale: 0.8 }}
+                            animate={{ scale: 1 }}
+                            transition={{ delay: 1.5 }}
+                          >
+                            <motion.a
+                              href={experience.projectLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className={`p-2 rounded-full ${
+                                theme === "light"
+                                  ? "bg-white/80 hover:bg-white text-gray-800"
+                                  : "bg-gray-900/80 hover:bg-gray-900 text-white"
+                              } flex items-center justify-center shadow-lg`}
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.95 }}
+                            >
+                              <Github className="w-5 h-5" />
+                            </motion.a>
+                          </motion.div>
+                        </div>
+                      </motion.div>
+
+                      {/* Skills with animated tags */}
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 1.5 }}
+                      >
+                        <h4
+                          className={`text-sm font-medium mb-3 ${theme === "light" ? "text-gray-600" : "text-gray-400"}`}
+                        >
+                          TECHNOLOGIES & SKILLS
+                        </h4>
+
+                        <div className="flex flex-wrap gap-2">
+                          {experience.skills.map((skill, index) => (
+                            <motion.span
+                              key={index}
+                              className={`px-3 py-1.5 rounded-full text-sm border ${
+                                theme === "light"
+                                  ? `bg-${colorMap[skill.color]}-100 text-${colorMap[skill.color]}-700 border-${colorMap[skill.color]}-200`
+                                  : `bg-${colorMap[skill.color]}-900/20 text-${colorMap[skill.color]}-400 border-${colorMap[skill.color]}-900/30`
+                              } flex items-center gap-1.5`}
+                              whileHover={{ scale: 1.05, y: -2 }}
+                              whileTap={{ scale: 0.95 }}
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: 1.6 + index * 0.05 }}
+                            >
+                              {skill.icon}
+                              {skill.name}
+                            </motion.span>
+                          ))}
+                        </div>
+                      </motion.div>
+
+                      {/* View project link with animation */}
+                      <motion.div
+                        className="mt-6 text-right"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 1.8 }}
                       >
                         <motion.a
                           href={experience.projectLink}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className={`p-2 rounded-full ${
+                          className={`inline-flex items-center ${
                             theme === "light"
-                              ? "bg-white/80 hover:bg-white text-gray-800"
-                              : "bg-gray-900/80 hover:bg-gray-900 text-white"
-                          } flex items-center justify-center shadow-lg`}
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.95 }}
+                              ? `text-${colorMap[experience.color]}-600 hover:text-${colorMap[experience.color]}-700`
+                              : `text-${colorMap[experience.color]}-400 hover:text-${colorMap[experience.color]}-300`
+                          } font-medium relative overflow-hidden group`}
+                          whileHover={{ x: 5 }}
+                          whileTap={{ scale: 0.98 }}
                         >
-                          <Github className="w-5 h-5" />
+                          <span className="relative z-10">View Project</span>
+                          <ExternalLink className="w-4 h-4 ml-1.5 relative z-10" />
+
+                          {/* Animated underline */}
+                          <motion.span
+                            className={`absolute bottom-0 left-0 w-full h-0.5 ${
+                              theme === "light"
+                                ? `bg-${colorMap[experience.color]}-500`
+                                : `bg-${colorMap[experience.color]}-500`
+                            } transform origin-left`}
+                            initial={{ scaleX: 0 }}
+                            whileHover={{ scaleX: 1 }}
+                            transition={{ duration: 0.3 }}
+                          />
                         </motion.a>
                       </motion.div>
                     </div>
                   </motion.div>
-
-                  {/* Skills with animated tags */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1.5 }}
-                  >
-                    <h4 className={`text-sm font-medium mb-3 ${theme === "light" ? "text-gray-600" : "text-gray-400"}`}>
-                      TECHNOLOGIES & SKILLS
-                    </h4>
-
-                    <div className="flex flex-wrap gap-2">
-                      {experience.skills.map((skill, index) => (
-                        <motion.span
-                          key={index}
-                          className={`px-3 py-1.5 rounded-full text-sm border ${
-                            theme === "light"
-                              ? `bg-${colorMap[skill.color]}-100 text-${colorMap[skill.color]}-700 border-${colorMap[skill.color]}-200`
-                              : `bg-${colorMap[skill.color]}-900/20 text-${colorMap[skill.color]}-400 border-${colorMap[skill.color]}-900/30`
-                          } flex items-center gap-1.5`}
-                          whileHover={{ scale: 1.05, y: -2 }}
-                          whileTap={{ scale: 0.95 }}
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 1.6 + index * 0.05 }}
-                        >
-                          {skill.icon}
-                          {skill.name}
-                        </motion.span>
-                      ))}
-                    </div>
-                  </motion.div>
-
-                  {/* View project link with animation */}
-                  <motion.div
-                    className="mt-6 text-right"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1.8 }}
-                  >
-                    <motion.a
-                      href={experience.projectLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`inline-flex items-center ${
-                        theme === "light"
-                          ? `text-${colorMap[experience.color]}-600 hover:text-${colorMap[experience.color]}-700`
-                          : `text-${colorMap[experience.color]}-400 hover:text-${colorMap[experience.color]}-300`
-                      } font-medium relative overflow-hidden group`}
-                      whileHover={{ x: 5 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <span className="relative z-10">View Project</span>
-                      <ExternalLink className="w-4 h-4 ml-1.5 relative z-10" />
-
-                      {/* Animated underline */}
-                      <motion.span
-                        className={`absolute bottom-0 left-0 w-full h-0.5 ${
-                          theme === "light"
-                            ? `bg-${colorMap[experience.color]}-500`
-                            : `bg-${colorMap[experience.color]}-500`
-                        } transform origin-left`}
-                        initial={{ scaleX: 0 }}
-                        whileHover={{ scaleX: 1 }}
-                        transition={{ duration: 0.3 }}
-                      />
-                    </motion.a>
-                  </motion.div>
-                </div>
-              </motion.div>
-            </motion.div>
+                </motion.div>
+              </Tilt>
+            )}
 
             {/* End marker with animation */}
             <motion.div
