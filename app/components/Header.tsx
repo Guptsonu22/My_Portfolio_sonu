@@ -94,14 +94,7 @@ export default function Header() {
         <nav className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             {/* Logo/Brand */}
-            <motion.div
-              className={`text-xl font-bold ${theme === "light" ? "text-gray-800" : "text-white"}`}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              Portfolio
-            </motion.div>
+            <div className="w-8"></div>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-4 lg:space-x-8">

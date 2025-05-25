@@ -8,11 +8,9 @@ import {
   MapPin,
   Award,
   ArrowRight,
-  ExternalLink,
   Code,
   ChevronLeft,
   ChevronRight,
-  Github,
   Sparkles,
   Layers,
   Database,
@@ -20,7 +18,6 @@ import {
 } from "lucide-react"
 import { useInView } from "react-intersection-observer"
 import { useTheme } from "../context/ThemeContext"
-import Image from "next/image"
 import useMobile from "../hooks/useMobile"
 import { Tilt } from "react-tilt"
 
@@ -97,10 +94,6 @@ export default function Experience() {
         "Created modules for attendance, fee management, exam results, and timetable scheduling, enhancing operational efficiency.",
         "Optimized database queries and UI responsiveness, reducing manual workload by 45% and improving system reliability.",
       ],
-      projectImage: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/smp_i3-C2LiuTqZSgrJLDQtin46cMLx0ePomG.png",
-      projectTitle: "School Management System",
-      projectDescription: "Comprehensive solution for educational institutions",
-      projectLink: "https://github.com/Guptsonu22/School-Managment-System",
       skills: [
         { name: "JAVA", icon: <Code size={14} />, color: "red" },
         { name: "MySQL", icon: <Database size={14} />, color: "blue" },
@@ -109,7 +102,29 @@ export default function Experience() {
         { name: "Database Optimization", icon: <Sparkles size={14} />, color: "green" },
       ],
     },
-    // You can add more experiences here
+    {
+      title: "Web Developer Intern",
+      company: "CODETECH IT SOLUTION",
+      period: "January 2025 - April 2025",
+      location: "Remote",
+      type: "Internship",
+      icon: <Code />,
+      color: "purple",
+      responsibilities: [
+        "Developed responsive web applications using HTML5, CSS3, JavaScript, and modern frameworks like React.js.",
+        "Collaborated with design teams to implement pixel-perfect UI/UX designs and ensure cross-browser compatibility.",
+        "Built RESTful APIs and integrated third-party services to enhance application functionality and user experience.",
+        "Participated in code reviews, debugging sessions, and agile development processes to deliver high-quality solutions.",
+        "Optimized website performance and implemented SEO best practices, resulting in improved loading times and search rankings.",
+      ],
+      skills: [
+        { name: "React.js", icon: <Code size={14} />, color: "blue" },
+        { name: "HTML5/CSS3", icon: <Layers size={14} />, color: "red" },
+        { name: "JavaScript", icon: <Sparkles size={14} />, color: "yellow" },
+        { name: "REST APIs", icon: <Database size={14} />, color: "green" },
+        { name: "Responsive Design", icon: <Lock size={14} />, color: "purple" },
+      ],
+    },
   ]
 
   const containerVariants = {
@@ -669,90 +684,6 @@ export default function Experience() {
                         </ul>
                       </div>
 
-                      {/* Project image with hover effects and animations */}
-                      <motion.div
-                        className={`mb-6 rounded-lg overflow-hidden ${
-                          theme === "light" ? "border border-gray-200" : "border border-gray-700"
-                        } transform-gpu`}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 1.2 }}
-                        whileHover={{
-                          scale: 1.02,
-                          boxShadow:
-                            theme === "light"
-                              ? "0 10px 25px -5px rgba(59, 130, 246, 0.1), 0 8px 10px -6px rgba(59, 130, 246, 0.1)"
-                              : "0 10px 25px -5px rgba(59, 130, 246, 0.2), 0 8px 10px -6px rgba(59, 130, 246, 0.2)",
-                        }}
-                        style={{
-                          transformStyle: "preserve-3d",
-                          transform: "translateZ(10px)",
-                        }}
-                      >
-                        <div className="relative h-64 overflow-hidden group">
-                          {/* Image with hover zoom effect */}
-                          <Image
-                            src={experience.projectImage || "/placeholder.svg"}
-                            alt={experience.projectTitle}
-                            layout="fill"
-                            objectFit="cover"
-                            className="group-hover:scale-105 transition-transform duration-500"
-                          />
-
-                          {/* Overlay gradient */}
-                          <div
-                            className={`absolute inset-0 ${
-                              theme === "light"
-                                ? "bg-gradient-to-t from-white/70 to-transparent"
-                                : "bg-gradient-to-t from-gray-900/70 to-transparent"
-                            } opacity-80 group-hover:opacity-60 transition-opacity duration-300`}
-                          />
-
-                          {/* Project info */}
-                          <div className="absolute bottom-4 left-4 right-4 transform transition-transform duration-300 group-hover:translate-y-[-5px]">
-                            <motion.h5
-                              className={`text-lg font-bold ${theme === "light" ? "text-gray-800" : "text-white"}`}
-                              initial={{ opacity: 0 }}
-                              animate={{ opacity: 1 }}
-                              transition={{ delay: 1.3 }}
-                            >
-                              {experience.projectTitle}
-                            </motion.h5>
-                            <motion.p
-                              className={`text-sm ${theme === "light" ? "text-gray-700" : "text-gray-300"}`}
-                              initial={{ opacity: 0 }}
-                              animate={{ opacity: 1 }}
-                              transition={{ delay: 1.4 }}
-                            >
-                              {experience.projectDescription}
-                            </motion.p>
-                          </div>
-
-                          {/* View project button that appears on hover */}
-                          <motion.div
-                            className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                            initial={{ scale: 0.8 }}
-                            animate={{ scale: 1 }}
-                            transition={{ delay: 1.5 }}
-                          >
-                            <motion.a
-                              href={experience.projectLink}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className={`p-2 rounded-full ${
-                                theme === "light"
-                                  ? "bg-white/80 hover:bg-white text-gray-800"
-                                  : "bg-gray-900/80 hover:bg-gray-900 text-white"
-                              } flex items-center justify-center shadow-lg`}
-                              whileHover={{ scale: 1.1 }}
-                              whileTap={{ scale: 0.95 }}
-                            >
-                              <Github className="w-5 h-5" />
-                            </motion.a>
-                          </motion.div>
-                        </div>
-                      </motion.div>
-
                       {/* Skills with animated tags */}
                       <motion.div
                         initial={{ opacity: 0, y: 10 }}
@@ -785,42 +716,6 @@ export default function Experience() {
                             </motion.span>
                           ))}
                         </div>
-                      </motion.div>
-
-                      {/* View project link with animation */}
-                      <motion.div
-                        className="mt-6 text-right"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 1.8 }}
-                      >
-                        <motion.a
-                          href={experience.projectLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={`inline-flex items-center ${
-                            theme === "light"
-                              ? `text-${colorMap[experience.color]}-600 hover:text-${colorMap[experience.color]}-700`
-                              : `text-${colorMap[experience.color]}-400 hover:text-${colorMap[experience.color]}-300`
-                          } font-medium relative overflow-hidden group`}
-                          whileHover={{ x: 5 }}
-                          whileTap={{ scale: 0.98 }}
-                        >
-                          <span className="relative z-10">View Project</span>
-                          <ExternalLink className="w-4 h-4 ml-1.5 relative z-10" />
-
-                          {/* Animated underline */}
-                          <motion.span
-                            className={`absolute bottom-0 left-0 w-full h-0.5 ${
-                              theme === "light"
-                                ? `bg-${colorMap[experience.color]}-500`
-                                : `bg-${colorMap[experience.color]}-500`
-                            } transform origin-left`}
-                            initial={{ scaleX: 0 }}
-                            whileHover={{ scaleX: 1 }}
-                            transition={{ duration: 0.3 }}
-                          />
-                        </motion.a>
                       </motion.div>
                     </div>
                   </motion.div>
