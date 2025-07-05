@@ -105,7 +105,7 @@ export default function Experience() {
     {
       title: "Web Developer Intern",
       company: "CODETECH IT SOLUTION",
-      period: "January 2025 - April 2025",
+      period: "30th January 2025 - 30th April 2025",
       location: "Remote",
       type: "Internship",
       icon: <Code />,
