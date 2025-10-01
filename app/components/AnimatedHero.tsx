@@ -602,7 +602,7 @@ export default function AnimatedHero() {
               transition={{ type: "spring", stiffness: 300 }}
             >
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202024-06-05%20at%2000.31.04_502d0f1b.jpg-HT1gLOo5mECadMhZFlV9gXLc968L0B.jpeg"
+                src="/images/design-mode/WhatsApp%20Image%202024-06-05%20at%2000.31.04_502d0f1b.jpg.jpeg"
                 alt="Sonu Kumar"
                 fill
                 style={{ objectFit: "cover", objectPosition: "center top" }}

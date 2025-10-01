@@ -96,7 +96,7 @@ export default function Hero() {
           className="mb-8"
         >
           <Image
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/1717527632476_optimized_50.jpg-By8G2wXNVffnvoWtg2MI5Gl0HY1qzB.jpeg"
+            src="/images/design-mode/1717527632476_optimized_50.jpg.jpeg"
             alt="Sonu Kumar"
             width={isMobile ? 140 : 180}
             height={isMobile ? 140 : 180}

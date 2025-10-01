@@ -39,7 +39,7 @@ export default function Resume() {
 
   const handleDownload = () => {
     const fileId = "1kE9Eg92uDIymnkOdS1lC7AEtioeFmuST"
-    const downloadUrl = `https://drive.google.com/file/d/12qs7wFzyIGKK5Jdlg6trlJtkyE9-4HOt/view?usp=drivesdk`
+    const downloadUrl = `https://drive.google.com/file/d/1jx7cAzTfCZwcqQFv2TukPoBhnXXzbEde/view?usp=drive_link`
 
     setIsDownloading(true)
     setProgress(0)

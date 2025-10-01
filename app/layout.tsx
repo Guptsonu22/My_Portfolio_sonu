@@ -7,7 +7,7 @@ import { ThemeProvider } from "./context/ThemeContext"
 export const metadata = {
   title: "Portfolio - Creative Developer",
   description: "Portfolio of a Creative Developer and IT Student",
-    generator: 'v0.dev'
+    generator: 'v0.app'
 }
 
 export const viewport: Viewport = {
