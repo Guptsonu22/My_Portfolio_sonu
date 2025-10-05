@@ -18,6 +18,27 @@ const categories = [
 
 const projects = [
   {
+    title: "PlaceMate Schedule",
+    description:
+      "A lightweight scheduling and planning tool that visualizes timelines and tasks with a clean, intuitive interface. Built to streamline project workflows and team coordination.",
+    image:
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Project-Schedule-Templates-featured-image-s6N0Hcg3Ii5jUDiZXNr10m5JtUG44Y.webp",
+    liveDemo: "https://github.com/Guptsonu22/PlaceMate_schedule",
+    sourceCode: "https://github.com/Guptsonu22/PlaceMate_schedule",
+    technologies: ["HTML", "CSS", "JavaScript", "Scheduling", "UI/UX"],
+    category: "web",
+  },
+  {
+    title: "Dr. Care",
+    description:
+      "A healthcare management web app focused on appointment scheduling, patient records, and a clean, accessible UI. Built to streamline doctor–patient interactions and clinic workflows.",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/drcare-LnGPb0UORzkppgjlDlkLyRlyAVdSwT.webp",
+    liveDemo: "https://github.com/Guptsonu22/Dr.care",
+    sourceCode: "https://github.com/Guptsonu22/Dr.care",
+    technologies: ["HTML", "CSS", "JavaScript", "Healthcare", "UI/UX"],
+    category: "web",
+  },
+  {
     title: "Plant AI Detective",
     description:
       "A web-based application that uses AI to identify plant species, detect diseases, and provide care tips. Users can upload plant images to get instant insights into their plant's health and maintenance recommendations.",
